@@ -1,14 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Keyboard, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import {
+  Keyboard,
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { COLORS } from "../constants/colors";
 
-export default function ChatInput({ onSend }) {
-  const [text, setText] = useState('');
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+export default function ChatInput({ onSend, theme }) {
+  const [text, setText] = useState("");
+  const [keyboardPadding, setKeyboardPadding] = useState(
+    Platform.OS === "android" ? 15 : 20,
+  );
+  const activeColors = COLORS[theme || "light"];
 
   useEffect(() => {
-    const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
-    const hideSub = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+    const showSub = Keyboard.addListener("keyboardDidShow", (e) =>
+      setKeyboardPadding(e.endCoordinates.height - 40),
+    );
+    const hideSub = Keyboard.addListener("keyboardDidHide", () =>
+      setKeyboardPadding(Platform.OS === "android" ? 15 : 20),
+    );
     return () => {
       showSub.remove();
       hideSub.remove();
@@ -16,22 +31,36 @@ export default function ChatInput({ onSend }) {
   }, []);
 
   const handleSend = () => {
-    if (text.trim() === '') return;
+    if (text.trim() === "") return;
     onSend(text);
-    setText('');
+    setText("");
   };
 
   return (
-    <View style={[styles.container, { paddingBottom: isKeyboardVisible ? 15 : 100 }]}>
-      <View style={styles.pillContainer}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingBottom: keyboardPadding,
+          backgroundColor: activeColors.background,
+        },
+      ]}>
+      <View
+        style={[
+          styles.pillContainer,
+          {
+            backgroundColor: activeColors.surface,
+            borderColor: activeColors.border,
+          },
+        ]}>
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="add" size={24} color="#8b949e" />
+          <Ionicons name="add" size={24} color={activeColors.textSecondary} />
         </TouchableOpacity>
 
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: activeColors.textPrimary }]}
           placeholder="Message..."
-          placeholderTextColor="#8b949e"
+          placeholderTextColor={activeColors.textSecondary}
           value={text}
           onChangeText={setText}
           multiline={true}
@@ -39,7 +68,13 @@ export default function ChatInput({ onSend }) {
         />
 
         <TouchableOpacity style={styles.iconButton} onPress={handleSend}>
-          <Ionicons name={text.trim() ? "send" : "mic-outline"} size={22} color={text.trim() ? "#58a6ff" : "#8b949e"} />
+          <Ionicons
+            name={text.trim() ? "send" : "mic-outline"}
+            size={22}
+            color={
+              text.trim() ? activeColors.primary : activeColors.textSecondary
+            }
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -47,33 +82,22 @@ export default function ChatInput({ onSend }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-    paddingTop: 10,
-    backgroundColor: 'transparent',
-  },
+  container: { paddingHorizontal: 15, paddingTop: 10 },
   pillContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#161b22', 
-    borderRadius: 30, 
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 30,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderWidth: 1,
-    borderColor: '#30363d',
   },
-  iconButton: {
-    padding: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  iconButton: { padding: 8, justifyContent: "center", alignItems: "center" },
   input: {
     flex: 1,
-    color: '#c9d1d9',
     fontSize: 16,
     maxHeight: 100,
     paddingHorizontal: 8,
     paddingVertical: 8,
-    textAlignVertical: 'top', 
-  }
+    textAlignVertical: "top",
+  },
 });

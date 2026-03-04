@@ -1,31 +1,48 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { COLORS } from "../constants/colors";
 
-export default function MessageBubble({ text, isMine }) {
+export default function MessageBubble({ text, isMine, theme }) {
+  const activeColors = COLORS[theme || "light"];
+
   return (
-    <View style={[styles.bubble, isMine ? styles.myBubble : styles.theirBubble]}>
-      <Text style={styles.messageText}>{text}</Text>
+    <View
+      style={[
+        styles.bubble,
+        isMine ? styles.myBubble : styles.theirBubble,
+        isMine 
+          ? { backgroundColor: activeColors.primary } 
+          : { backgroundColor: activeColors.surface },
+      ]}
+    >
+      <Text 
+        style={[
+          styles.text, 
+          { color: isMine ? "#fff" : activeColors.textPrimary }
+        ]}
+      >
+        {text}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  bubble: { 
-    maxWidth: '80%', 
-    paddingHorizontal: 16, 
-    paddingVertical: 12, 
-    borderRadius: 16, 
-    marginBottom: 12 
+  bubble: {
+    maxWidth: "80%",
+    padding: 12,
+    borderRadius: 20,
+    marginBottom: 10,
   },
-  myBubble: { 
-    backgroundColor: '#2b3139', // Copilot dark grey
-    alignSelf: 'flex-end', 
-    borderBottomRightRadius: 4 
+  myBubble: {
+    alignSelf: "flex-end",
+    borderBottomRightRadius: 4,
   },
-  theirBubble: { 
-    backgroundColor: '#1c2128', // Slightly darker for contrast
-    alignSelf: 'flex-start', 
-    borderBottomLeftRadius: 4 
+  theirBubble: {
+    alignSelf: "flex-start",
+    borderBottomLeftRadius: 4,
   },
-  messageText: { color: '#e2e8f0', fontSize: 16, lineHeight: 22 },
+  text: {
+    fontSize: 16,
+  },
 });
