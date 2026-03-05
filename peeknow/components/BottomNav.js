@@ -1,12 +1,15 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../constants/colors';
 
-export default function BottomNav({ activeScreen, setScreen }) {
+export default function BottomNav({ activeScreen, setScreen, theme }) {
+  const activeColors = COLORS[theme || 'dark'];
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: activeColors.background, borderTopColor: activeColors.border }]}>
       <TouchableOpacity onPress={() => setScreen('chats')} style={styles.iconButton}>
-        <Ionicons name="chatbubbles" size={28} color={activeScreen === 'chats' ? '#0a7ea4' : '#687076'} />
+        <Ionicons name="chatbubbles" size={28} color={activeScreen === 'chats' ? activeColors.primary : activeColors.textSecondary} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => setScreen('camera')} style={styles.cameraButton}>
@@ -14,7 +17,7 @@ export default function BottomNav({ activeScreen, setScreen }) {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => setScreen('feed')} style={styles.iconButton}>
-        <Ionicons name="albums" size={28} color={activeScreen === 'feed' ? '#0a7ea4' : '#687076'} />
+        <Ionicons name="albums" size={28} color={activeScreen === 'feed' ? activeColors.primary : activeColors.textSecondary} />
       </TouchableOpacity>
     </View>
   );
@@ -25,11 +28,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#8f4c4c',
     paddingVertical: 10,
     paddingBottom: 30, 
     borderTopWidth: 1,
-    borderColor: '#e0e0e0',
   },
   iconButton: { padding: 10 },
   cameraButton: {
@@ -40,10 +41,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20, 
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
     elevation: 5,
   }
 });

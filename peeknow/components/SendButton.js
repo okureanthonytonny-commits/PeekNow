@@ -2,6 +2,11 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+/**
+ * SendButton
+ * Triggers the message send action.
+ * Colors remain hardcoded to maintain the brand's primary action color.
+ */
 export default function SendButton({ onPress }) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -11,5 +16,13 @@ export default function SendButton({ onPress }) {
 }
 
 const styles = StyleSheet.create({
-  button: { backgroundColor: '#25D366', width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center', elevation: 3 },
+  button: { 
+    backgroundColor: '#25D366', 
+    width: 50, 
+    height: 50, 
+    borderRadius: 25, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    elevation: 3 
+  },
 });

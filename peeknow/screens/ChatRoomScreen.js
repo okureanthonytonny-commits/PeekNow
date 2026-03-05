@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BackHandler,
   FlatList,
@@ -19,14 +19,23 @@ const INITIAL_MESSAGES = [
   { id: "2", text: "Let's get to it.", sender: "me" },
 ];
 
+/**
+ * ChatRoomScreen
+ * Handles individual chat threads.
+ * Receives `theme` and `toggleTheme` globally from App.js.
+ */
 export default function ChatRoomScreen({
   contactName = "Mike",
   onBack = () => {},
+  theme,
+  toggleTheme,
 }) {
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
-  const [theme, setTheme] = useState("light");
-  const activeColors = COLORS[theme];
+  
+  // Applies the global theme prop. Defaults to 'dark' if undefined.
+  const activeColors = COLORS[theme || "dark"];
 
+  // Listens for the physical Android back button to close the chat safely
   useEffect(() => {
     const backAction = () => {
       onBack();
@@ -39,24 +48,26 @@ export default function ChatRoomScreen({
     return () => backHandler.remove();
   }, [onBack]);
 
+  // Appends a new message to the local state
   const handleSend = (text) => {
     const newMessage = { id: Date.now().toString(), text, sender: "me" };
     setMessages([...messages, newMessage]);
   };
-
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   return (
     <View
       style={[
         styles.mainContainer,
         { backgroundColor: activeColors.background },
-      ]}>
+      ]}
+    >
+      {/* Dynamically adjusts the phone's system time/battery icons */}
       <StatusBar
         barStyle={theme === "light" ? "dark-content" : "light-content"}
         backgroundColor={activeColors.background}
       />
 
+      {/* Top Header Row */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.iconButton}>
           <Ionicons
@@ -70,6 +81,7 @@ export default function ChatRoomScreen({
           {contactName}
         </Text>
 
+        {/* Global Theme Toggle Button */}
         <TouchableOpacity onPress={toggleTheme} style={styles.iconButton}>
           <Ionicons
             name={theme === "light" ? "moon" : "sunny"}
@@ -79,6 +91,7 @@ export default function ChatRoomScreen({
         </TouchableOpacity>
       </View>
 
+      {/* Chat Messages and Input */}
       <View style={styles.container}>
         <FlatList
           data={messages}
@@ -87,7 +100,7 @@ export default function ChatRoomScreen({
             <MessageBubble
               text={item.text}
               isMine={item.sender === "me"}
-              theme={theme}
+              theme={theme} // Passes global theme down to the message bubble
             />
           )}
           contentContainerStyle={styles.messageList}
@@ -101,8 +114,8 @@ export default function ChatRoomScreen({
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    paddingTop:
-      Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 10 : 40,
+    // Dynamically calculates the perfect clearance for the phone's notch
+    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 10 : 40,
   },
   container: { flex: 1, justifyContent: "space-between" },
   header: {
