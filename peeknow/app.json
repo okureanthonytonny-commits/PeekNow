@@ -20,11 +20,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.tonnysnack.snack56bd1911031446b781047be947abfa5a"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Easy to use mobile app with focus on originality of information"
+    "description": "Easy to use mobile app with focus on originality of information",
+    "extra": {
+      "eas": {
+        "projectId": "89c6ed28-9415-428b-b54e-906f5fac40ba"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
