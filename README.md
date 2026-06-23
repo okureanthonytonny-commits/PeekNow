@@ -55,9 +55,7 @@ peeknow/
    ```bash
    git clone https://github.com/okureanthonytonny-commits/PeekNow.git
    cd PeekNow/peeknow
-   
    ```
-```
 
 2. **Install dependencies**
    ```bash
@@ -68,8 +66,6 @@ yarn install
 ```
  3. **Start the development server**
    ```bash
-   
-   ```
 npm start
 # or
 expo start
