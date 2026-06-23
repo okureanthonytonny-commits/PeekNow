@@ -60,14 +60,19 @@ peeknow/
 2. **Install dependencies**
    ```bash
 npm install
+
+```
 # or
+    ```bash
 yarn install
 
 ```
  3. **Start the development server**
    ```bash
 npm start
+```
 # or
+    ```bash
 expo start
 ```
 
@@ -135,4 +140,3 @@ The theme is passed via React state and consumed by all screens and components.
 * Icons by Ionicons
 * Avatar images from Pravatar and placeholder images from Picsum
 
-```
