@@ -60,12 +60,12 @@ peeknow/
 2. **Install dependencies**
    ```bash
 npm install
-```
+   ```
 
  3. **Start the development server**
-    ```bash
+   ```bash
 expo start
-```
+   ```
 
 4. **Run on your device**
    * Scan the QR code with the Expo Go app (iOS/Android)
