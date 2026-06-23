@@ -60,18 +60,17 @@ peeknow/
 2. **Install dependencies**
    ```bash
 npm install
-
 ```
-# or
+or
     ```bash
 yarn install
-
 ```
+
  3. **Start the development server**
    ```bash
 npm start
 ```
-# or
+or
     ```bash
 expo start
 ```
