@@ -61,16 +61,8 @@ peeknow/
    ```bash
 npm install
 ```
-or
-    ```bash
-yarn install
-```
 
  3. **Start the development server**
-   ```bash
-npm start
-```
-or
     ```bash
 expo start
 ```
